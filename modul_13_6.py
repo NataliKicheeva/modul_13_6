@@ -7,18 +7,15 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import asyncio
 
 
-api = ""
+api = "7900827084:AAFigRCOlPD4KVljEtbIxhhfYXS6ZKx_Vcc"
 bot = Bot(token = api)
 dp = Dispatcher(bot, storage= MemoryStorage())
-kb = ReplyKeyboardMarkup()
-button = KeyboardButton(text= 'Рассчитать')
-button2 = KeyboardButton(text= 'Информация')
-kb.add(button, button2)
 
 kb = ReplyKeyboardMarkup(resize_keyboard=True)
 button = KeyboardButton(text='Рассчитать')
 button2 = KeyboardButton(text='Информация')
 kb.add(button, button2)
+
 
 class UserState(StatesGroup):
     age = State()
