@@ -10,6 +10,15 @@ import asyncio
 api = ""
 bot = Bot(token = api)
 dp = Dispatcher(bot, storage= MemoryStorage())
+kb = ReplyKeyboardMarkup()
+button = KeyboardButton(text= 'Рассчитать')
+button2 = KeyboardButton(text= 'Информация')
+kb.add(button, button2)
+
+kb = ReplyKeyboardMarkup(resize_keyboard=True)
+button = KeyboardButton(text='Рассчитать')
+button2 = KeyboardButton(text='Информация')
+kb.add(button, button2)
 
 class UserState(StatesGroup):
     age = State()
@@ -25,11 +34,13 @@ def get_inline_menu():
     )
     return keyboard
 
-@dp.message_handler(commands=["start"])
-async def start(message: types.Message):
-    await message.answer("Привет! Я бот, помогающий твоему здоровью.",
-                         reply_markup=types.ReplyKeyboardMarkup(resize_keyboard=True)
-                         .add("Рассчитать", "Информация"))
+@dp.message_handler(text = ['Привет', 'привет'])
+async def urban_message(message):
+    await message.answer("Введите команду /start, чтобы начать общение.")
+
+@dp.message_handler(commands=['start'])
+async def start_message(message):
+    await message.answer("Привет! Я бот помогающий твоему здоровью.", reply_markup= kb)
 
 @dp.message_handler(text = "Рассчитать")
 async def set_age(message, state):
@@ -75,6 +86,7 @@ async def send_calories(message, state):
         await message.reply("Пожалуйста, введите корректные числовые значения.")
 
     await state.finish()
+
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
